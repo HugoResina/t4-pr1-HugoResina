@@ -1,0 +1,45 @@
+﻿@page
+@model T4_Pr1_Hugo_energies_2.Pages.SolutionsModel
+@{
+	ViewData["Title"] = "Solucions";
+}
+
+<h1>llistat de Simulacions</h1>
+@*<p>@Model.FileErrorMessage</p>*@
+<br />
+<table class="table">
+	<thead>
+		@*data i hora en què s’ha generat (del sistema)
+		tipus de simulació
+		hores de sol disponibles / velocitat del vent / cabal de l’aigua
+		valor indicat per calcular la fòrmula (rati)
+		energia generada
+		cost i preu per kWh.
+		cost total
+		preu total*@
+		<tr>
+			<td>data i hora</td>
+			<td>tipus</td>
+			<td>parametre del calcul</td>
+			<td>rati</td>
+			<td>energia generada</td>
+			<td>cost</td>
+			<td>preu</td>
+
+		</tr>
+
+	<tbody>
+			@*@foreach (var product in Model.Products)
+			{
+			<tr>
+				<td>@product.Id</td>
+				<td>@product.Name</td>
+				<td>@product.Amount</td>
+				<td>@product.Price</td>
+			</tr>
+			}*@
+	</tbody>
+
+	</thead>
+
+</table>
