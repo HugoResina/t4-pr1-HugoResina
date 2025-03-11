@@ -7,10 +7,7 @@
         public double value { get; set; }
         public double ratio { get; set; }
         public double energyGenerated { get; set; }
-        public double costPerKWh { get; set; }
-        public double pricePerKWh { get; set; }
-        public double totalCost { get; set; }
-        public double totalPrice { get; set; }
+      
         public override double CalculateEnergy()
         {
             if (SimulationType == "Solar")

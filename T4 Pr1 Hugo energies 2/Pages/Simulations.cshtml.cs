@@ -1,62 +1,55 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Drawing;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using T4_Pr1_Hugo_energies_2.Model;
 
 namespace T4_Pr1_Hugo_energies_2.Pages
 {
-    public class SolutionsModel : PageModel
+    public class SimulacionsModel : PageModel
     {
-		public List<ASystem> EnergySystems { get; set; } = new List<ASystem>();
+        private const string FilePath = @"ModelData\simulacions_energia.csv";
+        public List<ASystem> EnergySystems { get; set; } = new List<ASystem>();
 
-		public void OnGet()
+        public void OnGet()
         {
-            string path = @"ModelData\simulacions_energia.csv";
-            if(System.IO.File.Exists(path))
+            if (System.IO.File.Exists(FilePath))
             {
-                using (var reader = new StreamReader(path))
+                var lines = System.IO.File.ReadAllLines(FilePath);
+                foreach (var line in lines)
                 {
-                    while (!reader.EndOfStream)
+                    var values = line.Split('|');
+                    if (values.Length < 9) continue; // Evitar errores en líneas inválidas
+
+                    string type = values[1];
+                    DateTime date = DateTime.ParseExact(values[0], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+                    double parameter = double.Parse(values[2]);
+                    double ratio = double.Parse(values[3]);
+                    double energyGenerated = double.Parse(values[4]);
+                    double costPerKWh = double.Parse(values[5]);
+                    double pricePerKWh = double.Parse(values[6]);
+                    double totalCost = double.Parse(values[7]);
+                    double totalPrice = double.Parse(values[8]);
+
+                    ASystem system = type switch
                     {
-                        var line = reader.ReadLine();
-                        var values = line.Split('|');
-                        if (values[1] == "Solar")
-                        {
-                            SolarSystem solar = new SolarSystem();
+                        "Solar" => new SolarSystem { Date = date, value = parameter, ratio = ratio, energyGenerated = energyGenerated },
+                        "Eolic" => new EolicSystem { Date = date, value = parameter, ratio = ratio, energyGenerated = energyGenerated },
+                        "Hydro" => new HydroelectricSystem { Date = date, value = parameter, ratio = ratio, energyGenerated = energyGenerated },
+                        _ => null
+                    };
 
-                            solar.Date = DateTime.Parse(values[0]);
-                            solar.value = double.Parse(values[2]);
-                            solar.ratio = double.Parse(values[3]);
-                            /*solar.costPerKWh = double.Parse(values[4]);
-                            solar.pricePerKWh = double.Parse(values[5]);
-                            solar.totalCost = double.Parse(values[6]);
-                            solar.totalPrice = double.Parse(values[7]);*/
-							solar.energyGenerated = double.Parse(values[4]);
-
-							EnergySystems.Add(solar);
-                        }
-                        else if (values[1] == "Eolic")
-                        {
-                            EolicSystem eolic = new EolicSystem();
-                            eolic.Date = DateTime.Parse(values[0]);
-                            eolic.value = double.Parse(values[2]);
-                            eolic.ratio = double.Parse(values[3]);
-                            eolic.costPerKWh = double.Parse(values[4]);
-                            eolic.pricePerKWh = double.Parse(values[5]);
-                            eolic.totalCost = double.Parse(values[6]);
-                            eolic.totalPrice = double.Parse(values[7]);
-                            eolic.energyGenerated = eolic.CalculateEnergy();
-                            EnergySystems.Add(eolic);
-                        }
+                    if (system != null)
+                    {
+                        system.costPerKWh = costPerKWh;
+                        system.pricePerKWh = pricePerKWh;
+                        system.totalCost = totalCost;
+                        system.totalPrice = totalPrice;
+                        EnergySystems.Add(system);
                     }
                 }
             }
-            else
-            {
-                Console.WriteLine("File not found");
-            }
-
-
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿@page
+@model T4_Pr1_Hugo_energies_2.Pages.AddSimulationModel
+@{
+    ViewData["Title"] = "Afegir Simulació";
+}
+
+<h1>Afegir Simulació</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="SystemType">Tipus de Sistema d’Energia</label>
+        <select asp-for="SystemType" class="form-control">
+            <option value="Solar">Solar</option>
+            <option value="Eolic">Eòlic</option>
+            <option value="Hydroelectric">Hidroelèctric</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="CalculationParameter">Paràmetre de Càlcul</label>
+        <input asp-for="CalculationParameter" class="form-control" />
+        <span asp-validation-for="CalculationParameter" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Simulation.ratio">Rati</label>
+        <input asp-for="Simulation.ratio" class="form-control" />
+        <span asp-validation-for="Simulation.ratio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Simulation.costPerKWh">Cost per kWh</label>
+        <input asp-for="Simulation.costPerKWh" class="form-control" />
+        <span asp-validation-for="Simulation.costPerKWh" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Simulation.pricePerKWh">Preu per kWh</label>
+        <input asp-for="Simulation.pricePerKWh" class="form-control" />
+        <span asp-validation-for="Simulation.pricePerKWh" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Afegir</button>
+</form>
