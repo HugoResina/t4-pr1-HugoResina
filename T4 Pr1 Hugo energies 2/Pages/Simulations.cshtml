@@ -1,7 +1,7 @@
 ﻿@page
 @model T4_Pr1_Hugo_energies_2.Pages.SolutionsModel
 @{
-	ViewData["Title"] = "Solucions";
+	ViewData["Title"] = "Simulations";
 }
 
 <h1>llistat de Simulacions</h1>
@@ -23,22 +23,25 @@
 			<td>parametre del calcul</td>
 			<td>rati</td>
 			<td>energia generada</td>
-			<td>cost</td>
-			<td>preu</td>
+			
 
 		</tr>
 
 	<tbody>
-			@*@foreach (var product in Model.Products)
+			@foreach (var item in Model.EnergySystems)
 			{
-			<tr>
-				<td>@product.Id</td>
-				<td>@product.Name</td>
-				<td>@product.Amount</td>
-				<td>@product.Price</td>
-			</tr>
-			}*@
+				
+				<tr>
+					<td>@item.Date</td>
+					<td>@item.SimulationType</td>
+					<td>@item.value</td>
+					<td>@item.ratio</td>
+					<td>@item.energyGenerated</td>
+				</tr>
+			}
 	</tbody>
+	<a asp-page="/AddSystem" class="btn btn-primary">Afegir Sistema</a>
+
 
 	</thead>
 
