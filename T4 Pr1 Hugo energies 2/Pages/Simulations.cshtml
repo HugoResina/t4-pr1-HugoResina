@@ -1,48 +1,48 @@
 ﻿@page
-@model T4_Pr1_Hugo_energies_2.Pages.SolutionsModel
+@model T4_Pr1_Hugo_energies_2.Pages.SimulationsModel
 @{
-	ViewData["Title"] = "Simulations";
+    ViewData["Title"] = "Simulations";
 }
 
 <h1>llistat de Simulacions</h1>
-@*<p>@Model.FileErrorMessage</p>*@
-<br />
-<table class="table">
-	<thead>
-		@*data i hora en què s’ha generat (del sistema)
-		tipus de simulació
-		hores de sol disponibles / velocitat del vent / cabal de l’aigua
-		valor indicat per calcular la fòrmula (rati)
-		energia generada
-		cost i preu per kWh.
-		cost total
-		preu total*@
-		<tr>
-			<td>data i hora</td>
-			<td>tipus</td>
-			<td>parametre del calcul</td>
-			<td>rati</td>
-			<td>energia generada</td>
-			
+@if(Model.EnergySystems == null || !Model.EnergySystems.Any())
+{
+    <p>No hi ha cap simulació registrada.</p>
+}
+else
+{
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Data i Hora</td>
+                <td>Tipus</td>
+                <td>Paràmetre del Càlcul</td>
+                <td>Rati</td>
+                <td>Energia Generada</td>
+                <td>Cost per kWh</td>
+                <td>Preu per kWh</td>
+                <td>Cost Total</td>
+                <td>Preu Total</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.EnergySystems)
+            {
+                <tr>
+                    <td>@item.Date</td>
+                    <td>@item.SimulationType</td>
+                    <td>@item.value</td>
+                    <td>@item.ratio</td>
+                    <td>@item.energyGenerated</td>
+                    <td>@item.costPerKWh</td>
+                    <td>@item.pricePerKWh</td>
+                    <td>@item.totalCost</td>
+                    <td>@item.totalPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-		</tr>
-
-	<tbody>
-			@foreach (var item in Model.EnergySystems)
-			{
-				
-				<tr>
-					<td>@item.Date</td>
-					<td>@item.SimulationType</td>
-					<td>@item.value</td>
-					<td>@item.ratio</td>
-					<td>@item.energyGenerated</td>
-				</tr>
-			}
-	</tbody>
-	<a asp-page="/AddSystem" class="btn btn-primary">Afegir Sistema</a>
-
-
-	</thead>
-
-</table>
+<a asp-page="/AddSimulation" class="btn btn-primary">Afegir Sistema</a>
